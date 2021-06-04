@@ -24,7 +24,7 @@ export const ConnectWallet = () => {
   }, [address, dispatch]);
 
   useEffect(() => {
-    if (window.ethereum._metamask.isEnabled()) {
+    if (window.ethereum) {
       connectMetamask();
     }
   }, []);

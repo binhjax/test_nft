@@ -17,11 +17,11 @@ export default function OxyPackage({ item, onBuyPlant, unit }) {
     setVisible(true);
     setTokenType(tokenType);
     if (price === 1) {
-      setNumberOfOxy(1000);
-    } else if (price === 5) {
       setNumberOfOxy(10000);
-    } else {
+    } else if (price === 5) {
       setNumberOfOxy(100000);
+    } else {
+      setNumberOfOxy(1000000);
     }
   };
 

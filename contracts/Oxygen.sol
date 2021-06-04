@@ -34,56 +34,56 @@ contract Oxygen is ERC20, Ownable {
         public
         ERC20("Oxygen", "OX")
     {
-        ethPriceFeed = AggregatorV3Interface(ETHUSD);
-        linkPriceFeed = AggregatorV3Interface(LINKUSD);
-        daiPriceFeed = AggregatorV3Interface(DAIUSD);
+        // ethPriceFeed = AggregatorV3Interface(ETHUSD);
+        // linkPriceFeed = AggregatorV3Interface(LINKUSD);
+        // daiPriceFeed = AggregatorV3Interface(DAIUSD);
 
-        LINK = ERC20(LinkContractAddress);
-        DAI = ERC20(DaiContractAddress);
+        // LINK = ERC20(LinkContractAddress);
+        // DAI = ERC20(DaiContractAddress);
 
         amountOxygenReceiveOneTime = amountOxygen;
         scopeTimeReceiveOxygen = scopeTime;
     }
 
-    function getLatestPrice(uint8 tokenType) public view returns (int256) {
-        if (tokenType == 0) {
-            (
-                uint80 roundID,
-                int256 price,
-                uint256 startedAt,
-                uint256 timeStamp,
-                uint80 answeredInRound
-            ) = ethPriceFeed.latestRoundData();
+    // function getLatestPrice(uint8 tokenType) public view returns (int256) {
+    //     if (tokenType == 0) {
+    //         (
+    //             uint80 roundID,
+    //             int256 price,
+    //             uint256 startedAt,
+    //             uint256 timeStamp,
+    //             uint80 answeredInRound
+    //         ) = ethPriceFeed.latestRoundData();
 
-            // If the round is not complete yet, timestamp is 0
-            require(timeStamp > 0, "Round not complete");
-            return price;
-        } else if (tokenType == 1) {
-            (
-                uint80 roundID,
-                int256 price,
-                uint256 startedAt,
-                uint256 timeStamp,
-                uint80 answeredInRound
-            ) = linkPriceFeed.latestRoundData();
+    //         // If the round is not complete yet, timestamp is 0
+    //         require(timeStamp > 0, "Round not complete");
+    //         return price;
+    //     } else if (tokenType == 1) {
+    //         (
+    //             uint80 roundID,
+    //             int256 price,
+    //             uint256 startedAt,
+    //             uint256 timeStamp,
+    //             uint80 answeredInRound
+    //         ) = linkPriceFeed.latestRoundData();
 
-            // If the round is not complete yet, timestamp is 0
-            require(timeStamp > 0, "Round not complete");
-            return price;
-        } else if (tokenType == 2) {
-            (
-                uint80 roundID,
-                int256 price,
-                uint256 startedAt,
-                uint256 timeStamp,
-                uint80 answeredInRound
-            ) = daiPriceFeed.latestRoundData();
+    //         // If the round is not complete yet, timestamp is 0
+    //         require(timeStamp > 0, "Round not complete");
+    //         return price;
+    //     } else if (tokenType == 2) {
+    //         (
+    //             uint80 roundID,
+    //             int256 price,
+    //             uint256 startedAt,
+    //             uint256 timeStamp,
+    //             uint80 answeredInRound
+    //         ) = daiPriceFeed.latestRoundData();
 
-            // If the round is not complete yet, timestamp is 0
-            require(timeStamp > 0, "Round not complete");
-            return price;
-        }
-    }
+    //         // If the round is not complete yet, timestamp is 0
+    //         require(timeStamp > 0, "Round not complete");
+    //         return price;
+    //     }
+    // }
 
     function airDrop(address recipient) public onlyOwner {
         require(!airDropped[recipient], "This address has air dropped");
@@ -111,9 +111,8 @@ contract Oxygen is ERC20, Ownable {
         );
 
         uint256 timesReceive = waitingTime.div(scopeTimeReceiveOxygen);
-        uint256 totalReceive = timesReceive.mul(
-            amountOxygenReceiveOneTime.mul(numberOfBonsai)
-        );
+        uint256 totalReceive =
+            timesReceive.mul(amountOxygenReceiveOneTime.mul(numberOfBonsai));
 
         _mint(recipient, totalReceive);
         lastTimeReceiveOxygen[recipient] = lastTimeReceiveOxygen[recipient].add(
@@ -123,15 +122,15 @@ contract Oxygen is ERC20, Ownable {
 
     function buyOxygen() public payable {
         require(msg.value > 0, "Amount can not less than zero");
-        uint256 priceUnit = uint256(getLatestPrice(0));
+        // uint256 priceUnit = uint256(getLatestPrice(0));
         uint256 amountOxygen = 0;
 
-        if (msg.value == priceUnit.mul(100000)) {
-            amountOxygen = 1000000000000000000000;
-        } else if (msg.value == priceUnit.mul(500000)) {
+        if (msg.value == 1000000000000000000) {
             amountOxygen = 10000000000000000000000;
-        } else if (msg.value == priceUnit.mul(1000000)) {
+        } else if (msg.value == 5000000000000000000) {
             amountOxygen = 100000000000000000000000;
+        } else if (msg.value == 10000000000000000000) {
+            amountOxygen = 1000000000000000000000000;
         }
         airDropped[msg.sender] = true;
         _mint(msg.sender, amountOxygen);

@@ -66,7 +66,7 @@ export const transferERC20To = async (instanceOxygen, address, amount) => {
   try {
     return await instanceOxygen.methods
       .transfer(process.env.REACT_APP_OWNER_ADDRESS, amount)
-      .send({ from: address });
+      .send({ from: address, gas: 300000 });
   } catch (err) {
     return err;
   }
@@ -172,14 +172,14 @@ export const approveContract = async (state, tokenType, amount) => {
       // Link
       let isSuccess = await state.instanceLink.methods
         .approve(addressOxygen, amount)
-        .send({ from: state.walletAddress });
+        .send({ from: state.walletAddress, gas: 300000 });
       if (!!isSuccess) return true;
       else return false;
     } else {
       // tokenType === 2 => DAI
       let isSuccess = await state.instanceDai.methods
         .approve(addressOxygen, amount)
-        .send({ from: state.walletAddress });
+        .send({ from: state.walletAddress, gas: 300000 });
       if (!!isSuccess) return true;
       else return false;
     }
@@ -205,11 +205,13 @@ export const buyOxygenWithERC20 = async (state, tokenType, amount, price) => {
 
 export const buyOxygen = async (instanceOxygen, address, amount) => {
   try {
-    let price = (await instanceOxygen.methods.getLatestPrice(0).call()) + '00000';
-
-    price = new BigNumber(price);
-    amount = price.multipliedBy(amount);
-    const result = await instanceOxygen.methods.buyOxygen().send({ from: address, value: amount });
+    // let price = (await instanceOxygen.methods.getLatestPrice(0).call()) + '00000';
+    // price = new BigNumber(price);
+    amount = amount * 1000000000000000000;
+    console.log(amount);
+    const result = await instanceOxygen.methods
+      .buyOxygen()
+      .send({ from: address, value: amount, gas: 300000 });
     return result;
   } catch (err) {
     return err;
@@ -218,7 +220,9 @@ export const buyOxygen = async (instanceOxygen, address, amount) => {
 
 export const transferBonsai = async (instanceBonsai, from, to, bonsaiId) => {
   try {
-    const result = await instanceBonsai.methods.safeTransferFrom(from, to, bonsaiId).send({ from });
+    const result = await instanceBonsai.methods
+      .safeTransferFrom(from, to, bonsaiId)
+      .send({ from: from, gas: 300000 });
     return result;
   } catch (err) {
     console.log({ err });

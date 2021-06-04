@@ -8,7 +8,6 @@
     "console:live": "npx truffle console --network live",
     "depcheck": "echo '@chainlink/box' && depcheck --ignore-dirs=build/contracts || true",
     "solhint": "solhint ./contracts/**/*.sol",
-    "lint": "yarn solhint",
     "migrate:dev": "npx truffle migrate --reset --network cldev",
     "migrate:live": "npx truffle migrate --network live",
     "test": "NODE_ENV=test npx truffle test"
