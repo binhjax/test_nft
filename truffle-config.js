@@ -4,11 +4,14 @@ require("dotenv").config();
 module.exports = {
   contracts_build_directory: "./ui/src/contracts",
   networks: {
-    development: {
-      host: "127.0.0.1",
-      port: 8545,
+    cldev: {
+      host: "103.161.39.153",
+      // host: "127.0.0.1",
+      // port: 8545,
+      port: 8501,
       network_id: "*",
       skipDryRun: true,
+      from: '0xffbcd481c1330e180879b4d2b9b50642eea43c02'
     },
     ganache: {
       host: "127.0.0.1",
