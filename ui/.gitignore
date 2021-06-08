@@ -26,7 +26,6 @@ yarn-error.log*
 package-lock.json
 yarn.lock
 conf/defaults.js
-contracts
 
 .firebaserc
 firebase.json
